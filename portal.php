@@ -1,22 +1,21 @@
 <?php
-// --- MySQL connection settings ---
+
 $servername = "localhost";
-$username = "root";  // change if needed
-$password = "";      // change if needed
+$username = "root"; 
+$password = ""; 
 $dbname = "portal_db";
 
-// --- Connect to MySQL server ---
-$conn = new mysqli($servername, $username, "", ""); // connect without db first
+$conn = new mysqli($servername, $username, "", ""); 
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// --- Create database if not exists ---
+
 $conn->query("CREATE DATABASE IF NOT EXISTS $dbname");
 $conn->select_db($dbname);
 
-// --- Create events table if not exists ---
+
 $create_table = "
 CREATE TABLE IF NOT EXISTS events (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -27,7 +26,7 @@ CREATE TABLE IF NOT EXISTS events (
 )";
 $conn->query($create_table);
 
-// --- Handle Insert ---
+
 $msg = "";
 if (isset($_POST['add_event'])) {
     $title = $_POST['title'];
@@ -45,7 +44,6 @@ if (isset($_POST['add_event'])) {
     $stmt->close();
 }
 
-// --- Handle Update ---
 if (isset($_POST['update_event'])) {
     $id = $_POST['id'];
     $title = $_POST['title'];
@@ -63,7 +61,7 @@ if (isset($_POST['update_event'])) {
     $stmt->close();
 }
 
-// --- Fetch latest 5 events ---
+
 $events = [];
 $result = $conn->query("SELECT * FROM events ORDER BY created_at DESC LIMIT 5");
 if ($result) {
@@ -126,3 +124,4 @@ $conn->close();
 
 </body>
 </html>
+
